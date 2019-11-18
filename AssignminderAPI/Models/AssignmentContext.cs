@@ -7,8 +7,10 @@ namespace AssignminderAPI.Models
         public AssignmentContext(DbContextOptions<AssignmentContext> options)
             : base(options)
         {
+
         }
 
-        public DbSet<Assignment> TodoItems { get; set; }
+        public DbSet<Assignment> Assignments { get; set; }
     }
+
 }
