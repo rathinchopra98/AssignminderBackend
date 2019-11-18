@@ -7,6 +7,8 @@ namespace AssignminderAPI.Models
     {
         [Key]
         public string ID { get; set; }
+        public string UserID { get; set; }
+
 
 
         public string Name { get; set; }

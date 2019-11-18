@@ -8,7 +8,7 @@ namespace AssignminderAPI.Models
         [Key]
         public string Name { get; set; }
         public string CourseID { get; set; }
-
+        public string UserID { get; set; }
 
         public float Grade { get; set; }
         public DateTimeOffset dueDate { get; set; }
