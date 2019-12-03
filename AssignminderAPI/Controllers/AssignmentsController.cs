@@ -29,9 +29,9 @@ namespace AssignminderAPI.Controllers
 
         // GET: api/Assignments/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Assignment>> GetAssignment(string id)
+        public async Task<ActionResult<IEnumerable<Assignment>>> GetAssignment(string id)
         {
-            var assignment = await _context.Assignments.FindAsync(id);
+            var assignment = await _context.Assignments.Where(x => x.UserID == id).ToListAsync();
 
             if (assignment == null)
             {
@@ -77,26 +77,29 @@ namespace AssignminderAPI.Controllers
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for
         // more details see https://aka.ms/RazorPagesCRUD.
         [HttpPost]
-        public async Task<ActionResult<Assignment>> PostAssignment(Assignment assignment)
+        public async Task<ActionResult<Assignment>> PostAssignment(IEnumerable<Assignment> assignments)
         {
-            _context.Assignments.Add(assignment);
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateException)
-            {
-                if (AssignmentExists(assignment.Name))
+            foreach (var item in assignments) {
+                _context.Assignments.Add(item);
+
+                try
                 {
-                    return Conflict();
+                    await _context.SaveChangesAsync();
                 }
-                else
+                catch (DbUpdateException)
                 {
-                    throw;
+                    if (AssignmentExists(item.Name))
+                    {
+                        return Conflict();
+                    }
+                    else
+                    {
+                        throw;
+                    }
                 }
             }
 
-            return CreatedAtAction("GetAssignment", new { id = assignment.Name }, assignment);
+            return CreatedAtAction("GetAssignment", assignments);
         }
 
         // DELETE: api/Assignments/5
