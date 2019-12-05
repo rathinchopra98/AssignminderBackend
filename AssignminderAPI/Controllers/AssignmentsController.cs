@@ -22,9 +22,11 @@ namespace AssignminderAPI.Controllers
 
         // GET: api/Assignments
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Assignment>>> GetAssignments()
+        public ActionResult<IEnumerable<Assignment>> GetAssignments()
         {
-            return await _context.Assignments.ToListAsync();
+            AssignmentPrioritization assignmentPrioritization = new AssignmentPrioritization(_context.Assignments.ToList());
+            var result = assignmentPrioritization.GetPriorityAssignmentList();
+            return result;
         }
 
         // GET: api/Assignments/5
@@ -77,7 +79,7 @@ namespace AssignminderAPI.Controllers
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for
         // more details see https://aka.ms/RazorPagesCRUD.
         [HttpPost]
-        public async Task<ActionResult<Assignment>> PostAssignment(IEnumerable<Assignment> assignments)
+        public async Task<ActionResult<IEnumerable<Assignment>>> PostAssignment(IEnumerable<Assignment> assignments)
         {
             foreach (var item in assignments) {
                 _context.Assignments.Add(item);

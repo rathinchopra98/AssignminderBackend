@@ -13,6 +13,8 @@ namespace AssignminderAPI.Models
         public float Grade { get; set; }
         public DateTime dueDate { get; set; }
         public DateTime Reminder { get; set; }
+        public int priorityKey { get; set; }
+        public float weightage { get; set; }
 
         public Assignment()
         {
