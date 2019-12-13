@@ -20,9 +20,13 @@ namespace AssignminderAPI
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            var connection = Configuration["DbConnectionString"];
             services.AddDbContext<AssignmentContext>(opt =>
-               opt.UseInMemoryDatabase("AssignmentList"));
+               opt.UseInMemoryDatabase("Assignminder_assignment"));
             services.AddControllers();
+
+            services.AddDbContext<AssignmentContext>(options => options.UseSqlServer(connection));
+            services.AddScoped<AssignmentContext, AssignmentContext>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
